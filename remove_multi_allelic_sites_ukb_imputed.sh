@@ -1,5 +1,6 @@
 #Goal: go from bgen files to a vcf file per chromosome, excluding variants with more than two alleles and keeping reference allele as described in the .bim file
-#Imput: .bgen and plink (.bim) files for UK Biobank imputed data, list of samples one wishes to include.
+#plink2 appears to not accept multi-allelic sites in this conversion without swapping reference allele identities so as to not have 'duplicated' entries.
+#Input: .bgen and plink (.bim) files for UK Biobank imputed data, list of samples one wishes to include.
 #Output: compressed vcf file without multi-allelic SNPs and preserving REF allele identity.
 #
 
