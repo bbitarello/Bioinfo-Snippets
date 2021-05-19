@@ -10,7 +10,8 @@ basename <- glue::glue("chr{chr}{base}")
 info_snp<-fread(glue::glue("{dir}/{basename}")) #path where hg19 map files can be foun
 setnames(info_snp, c('SNP', 'pos', 'Dist'))
 info_snp[, chr:=chr]
-snp_modifyBuild(info_snp, from=tolower(from), to=tolower(to), liftOver=liftover)[,.(SNP, pos, Dist)] %>% fwrite2(file=glue::glue("{outdir}{basename}"), col.names=F, sep="\t")
+info_snp<-info_snp[order(chr, pos)]  
+snp_modifyBuild(info_snp, from=tolower(from), to=tolower(to), liftOver=liftover) %>% arrange(chr, pos) %>% select(SNP, pos, Dist)  %>% na.omit() %>% as.data.table() %>% fwrite2(file=glue::glue("{outdir}{basename}"), col.names=F, sep="\t")
 cat(chr, '\n')
 }
 }
