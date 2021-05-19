@@ -7,7 +7,7 @@ require(data.table)
 bigassertr::assert_dir(outdir)
 for(chr in 1:22){
 basename <- glue::glue("chr{chr}{base}")
-info_snp<-fread(glue::glue("{dir}/{basename}")) #path where hg19 map files can be foun
+info_snp<-fread(glue::glue("{dir}{basename}")) #path where hg19 map files can be foun
 setnames(info_snp, c('SNP', 'pos', 'Dist'))
 info_snp[, chr:=chr]
 info_snp<-info_snp[order(chr, pos)]  
