@@ -1,4 +1,4 @@
-liftover_BED<-function(x="path/EAS_fourier_ls-all.bed", hg_old="hg19", hg_new="hg38",pop='EAS', outfile=glue::glue("XPASS/inst/extdata/{pop}_fourier_ls-all")){
+liftover_BED<-function(x="path/EAS_fourier_ls-all.bed", hg_old="hg19", hg_new="hg38",pop='EAS',outfile="XPASS/inst/extdata/_fourier_ls-all"){
 require(data.table)
 require(tidyverse)
 options(scipen=999)
@@ -32,6 +32,6 @@ n2<-nrow(merge(new_start[!(V4 %in% all_bad)], new_stop[!(V4 %in% all_bad)], by=c
 merge(new_start[!(V4 %in% all_bad)], new_stop[!(V4 %in% all_bad)], by=c("V1", "V4")) %>% 
   mutate(chr2=as.numeric(gsub("chr","", V1)), start=as.numeric(V2.x), stop=as.numeric(V2.y), id=V4) %>%
   arrange(chr2, start, stop) %>% select(chr, start, stop) %>% as.data.table %>%
-  fwrite2(file=glue::glue("{outfile}.bed"), sep="\t", col.names=T)
+  bigreadr::fwrite2(file=paste0(gsub("_fourier", glue::glue("{pop}_fourier"), outfile), ".bed"), sep="\t", col.names=T)
 return(print(glue::glue("Wrote lifted {type} file to {outfile}_{hg_new}.bed. {n2} out of {n1} were lifted.")))
 }  
