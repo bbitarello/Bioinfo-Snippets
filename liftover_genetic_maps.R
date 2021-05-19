@@ -4,7 +4,7 @@ require(bigstatsr)
 require(dplyr)
 require(bigreadr)
 require(data.table)
-assertdir("maps/")
+bigassertr::assert_dir(outdir)
 for(chr in 1:22){
 basename <- glue::glue("chr{chr}{base}")
 info_snp<-fread(glue::glue("{dir}/{basename}")) #path where hg19 map files can be foun
@@ -14,3 +14,5 @@ snp_modifyBuild(info_snp, from="hg19", to="hg38", liftOver="~/bin/liftOver")[,.(
 cat(chr, '\n')
 }
 }
+
+#test: liftover_genetic_map(dir="/project/mathilab/data/1kg/20130502_phase3_final/", outdir="maps_hg38/", from="hg19", to="hg38", base=".OMNI.interpolated_genetic_map")
