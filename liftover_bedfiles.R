@@ -29,6 +29,9 @@ bad_stop<-fread(glue::glue("grep -v '^#' {temp}_stop_u.bed"))
 all_bad<-unique(sort(c(bad_start$V4, bad_stop$V4, new_start[!(V1 %in% paste0("chr",1:22))]$V4, new_stop[!(V1 %in% paste0("chr",1:22))]$V4)))
 print(all_bad)
 n2<-nrow(merge(new_start[!(V4 %in% all_bad)], new_stop[!(V4 %in% all_bad)], by=c("V1","V4")))
-merge(new_start[!(V4 %in% all_bad)], new_stop[!(V4 %in% all_bad)], by=c("V1", "V4")) %>% mutate(chr=as.numeric(gsub("chr","", V1)), start=as.numeric(V2.x), stop=as.numeric(V2.y), id=V4) %>% arrange(chr, start, stop) %>% select(chr, start, stop) %>% as.data.table %>% fwrite2(file=glue::glue("{outfile}.bed"), sep="\t", col.names=T)
+merge(new_start[!(V4 %in% all_bad)], new_stop[!(V4 %in% all_bad)], by=c("V1", "V4")) %>% 
+  mutate(chr2=as.numeric(gsub("chr","", V1)), start=as.numeric(V2.x), stop=as.numeric(V2.y), id=V4) %>%
+  arrange(chr2, start, stop) %>% select(chr, start, stop) %>% as.data.table %>%
+  fwrite2(file=glue::glue("{outfile}.bed"), sep="\t", col.names=T)
 return(print(glue::glue("Wrote lifted {type} file to {outfile}_{hg_new}.bed. {n2} out of {n1} were lifted.")))
 }  
